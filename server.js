@@ -25,7 +25,9 @@ mongoose
   })
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.error('MongoDB connection error:', err));
-
+ app.get('/api/dashboard', (req, res) => {
+  res.json({ message: 'Welcome to Dashboard' });
+});
 // Routes
 const authRoutes = require('./routes/auth');
 app.use('/api', authRoutes);
