@@ -1,13 +1,6 @@
 {
-<<<<<<< HEAD
-  "dependencies": {
-    "bcryptjs": "^3.0.2",
-    "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
-    "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.14.2"
-=======
+
+
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
@@ -50,6 +43,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
->>>>>>> 31e19bec3a8e13e6e2ec54841dc0c287eeda9720
+
   }
 }
