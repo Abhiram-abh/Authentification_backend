@@ -1,4 +1,13 @@
 {
+  "scripts": {
+    "start": "node server.js",
+    "build": "react-scripts build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+
+
+
+
   "name": "backend",
   "version": "1.0.0",
   "description": "<<<<<<< HEAD # Getting Started with Create React App",
