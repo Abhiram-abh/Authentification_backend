@@ -4,6 +4,7 @@
   "description": "<<<<<<< HEAD # Getting Started with Create React App",
   "main": "server.js",
   "dependencies": {
+    "@lottiefiles/dotlottie-react": "^0.13.5",
     "abab": "^2.0.6",
     "accepts": "^2.0.0",
     "acorn": "^8.14.1",
