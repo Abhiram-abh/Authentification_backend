@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const User = require('./models/User'); // Assuming you have a User model
+
 
 dotenv.config();
 
@@ -26,9 +28,33 @@ mongoose
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
-// Define a route for the root path
+
+  // JWT Authentication Middleware
+const authenticateJWT = (req, res, next) => {
+  const token = req.header('Authorization')?.split(' ')[1];
+  if (!token) return res.redirect('/login');
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) return res.redirect('/login');
+    req.user = user;
+    next();
+  });
+};
+
+
+// Role-Based Access Control Middleware
+const authorizeRoles = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).json({ message: 'Access Forbidden: Insufficient Permissions' });
+    }
+    next();
+  };
+};
+
+// Redirect root URL to login page
 app.get('/', (req, res) => {
-  res.send('Welcome to the homepage!');
+  res.redirect('/login');
 });
 
 // Dashboard Route
