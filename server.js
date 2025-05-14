@@ -1,9 +1,10 @@
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const jwt = require('jsonwebtoken');
 const User = require('./models/User'); // Assuming you have a User model
-
 
 dotenv.config();
 
@@ -19,6 +20,9 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI, {
@@ -28,8 +32,7 @@ mongoose
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
-
-  // JWT Authentication Middleware
+// JWT Authentication Middleware
 const authenticateJWT = (req, res, next) => {
   const token = req.header('Authorization')?.split(' ')[1];
   if (!token) return res.redirect('/login');
@@ -40,7 +43,6 @@ const authenticateJWT = (req, res, next) => {
     next();
   });
 };
-
 
 // Role-Based Access Control Middleware
 const authorizeRoles = (...roles) => {
@@ -57,9 +59,14 @@ app.get('/', (req, res) => {
   res.redirect('/login');
 });
 
-// Dashboard Route
-app.get('/api/dashboard', (req, res) => {
-  res.json({ message: 'Welcome to Dashboard' });
+// Serve the login page
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Dashboard Route – Protected by JWT and Role-Based Access Control
+app.get('/api/dashboard', authenticateJWT, authorizeRoles('admin', 'user'), (req, res) => {
+  res.json({ message: 'Welcome to the Dashboard' });
 });
 
 // Routes
