@@ -15,14 +15,14 @@ app.use(express.json());
 
 // CORS Configuration
 const corsOptions = {
-  origin: ['http://localhost:3000', 'https://authentification-frontend.onrender.com'], // add both localhost and production URL
+  origin: ['http://localhost:3000', 'https://authentification-frontend.onrender.com'], // Add both localhost and production URL
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true,  // if you're handling cookies or credentials
+  credentials: true,  // If you're handling cookies or credentials
 };
 app.use(cors(corsOptions));
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, '../client/build')));
+app.use(express.static(path.join(__dirname, 'client/build'))); // Make sure client/build is the correct location
 
 // Connect to MongoDB
 mongoose
@@ -62,7 +62,7 @@ app.get('/', (req, res) => {
 
 // Serve the login page
 app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html')); // Serve React's index.html
 });
 
 // Dashboard Route – Protected by JWT and Role-Based Access Control
@@ -70,9 +70,15 @@ app.get('/api/dashboard', authenticateJWT, authorizeRoles('admin', 'user'), (req
   res.json({ message: 'Welcome to the Dashboard' });
 });
 
-// Routes
+// Routes for Authentication
 const authRoutes = require('./routes/auth');
 app.use('/api', authRoutes);
 
+// Catch-all route to serve React's index.html for any other routes (so that React handles the routing)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
+
+// Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
