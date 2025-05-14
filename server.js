@@ -15,10 +15,14 @@ app.use(express.json());
 
 // CORS Configuration
 const corsOptions = {
-  origin: ['http://localhost:3000', 'https://authentification-frontend.onrender.com'], // Add both localhost and production URL
+  origin: [
+    'http://localhost:3000',
+    'https://authentification-backend-22.onrender.com'  // Add your deployed domain here
+  ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true,  // If you're handling cookies or credentials
+  credentials: true,
 };
+
 app.use(cors(corsOptions));
 
 // Serve static files from the React app
