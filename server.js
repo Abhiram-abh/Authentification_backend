@@ -17,7 +17,7 @@ app.use(express.json());
 const corsOptions = {
   origin: [
     'http://localhost:3000',
-    'https://authentification-backend-22.onrender.com'  // Add your deployed domain here
+    'https://authentification-frontend3.onrender.com'  // Add your deployed domain here
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
