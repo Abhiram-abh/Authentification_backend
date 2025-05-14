@@ -15,8 +15,9 @@ app.use(express.json());
 
 // CORS Configuration
 const corsOptions = {
-  origin: 'http://localhost:3000', // Replace with your frontend's URL
-  credentials: true,
+  origin: ['http://localhost:3000', 'https://authentification-frontend.onrender.com'], // add both localhost and production URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,  // if you're handling cookies or credentials
 };
 app.use(cors(corsOptions));
 
